@@ -14,11 +14,10 @@ public class ServiceProxyFactory {
      * @return
      * @param <T>
      */
-    public static <T> T getProxy(Class<T> serviceClass){
+    public static <T> T getProxy(Class<T> serviceClass) {
         return (T) Proxy.newProxyInstance(
                 serviceClass.getClassLoader(),
                 new Class[]{serviceClass},
                 new ServiceProxy());
-
     }
 }

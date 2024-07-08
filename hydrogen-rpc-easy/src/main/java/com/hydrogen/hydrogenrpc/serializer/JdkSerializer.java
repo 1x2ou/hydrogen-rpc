@@ -2,7 +2,7 @@ package com.hydrogen.hydrogenrpc.serializer;
 
 import java.io.*;
 
-public class JdkSerializer implements serializer{
+public class JdkSerializer implements Serializer {
     /**
      * 序列化
      *

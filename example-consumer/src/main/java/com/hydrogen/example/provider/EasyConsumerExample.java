@@ -5,8 +5,9 @@ import com.hydrogen.example.common.service.UserService;
 
 public class EasyConsumerExample {
     public static void main(String[] args) {
-        //todo: 需要获取UserService的实现类
-        UserService userService = null;
+        //静态代理
+        UserService userService = new UserServiceProxy();
+
         User user = new User();
         user.setName("lingxiao");
         //调用

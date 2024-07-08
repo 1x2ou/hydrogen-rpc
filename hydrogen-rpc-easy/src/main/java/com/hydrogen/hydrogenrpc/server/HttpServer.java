@@ -1,4 +1,4 @@
-package com.hydrogen.hydrogenrpc;
+package com.hydrogen.hydrogenrpc.server;
 
 /**
  * HTTP 服务器接口

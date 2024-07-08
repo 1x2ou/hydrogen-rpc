@@ -1,4 +1,4 @@
-package com.hydrogen.hydrogenrpc;
+package com.hydrogen.hydrogenrpc.server;
 
 import io.vertx.core.Vertx;
 

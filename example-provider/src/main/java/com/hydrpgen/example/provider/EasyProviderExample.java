@@ -1,9 +1,9 @@
 package com.hydrpgen.example.provider;
 
 import com.hydrogen.example.common.service.UserService;
-import com.hydrogen.hydrogenrpc.HttpServer;
-import com.hydrogen.hydrogenrpc.VertxHttpServer;
-import com.hydrpgen.example.registry.LocalRegistry;
+import com.hydrogen.hydrogenrpc.server.HttpServer;
+import com.hydrogen.hydrogenrpc.server.VertxHttpServer;
+import com.hydrogen.hydrogenrpc.registry.LocalRegistry;
 
 public class EasyProviderExample {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.hydrpgen.example.registry;
+package com.hydrogen.hydrogenrpc.registry;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

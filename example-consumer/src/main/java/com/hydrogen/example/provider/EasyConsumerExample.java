@@ -2,10 +2,15 @@ package com.hydrogen.example.provider;
 
 import com.hydrogen.example.common.model.User;
 import com.hydrogen.example.common.service.UserService;
+import com.hydrogen.hydrogenrpc.config.RpcConfig;
 import com.hydrogen.hydrogenrpc.proxy.ServiceProxyFactory;
+import com.hydrogen.hydrogenrpc.utils.ConfigUtils;
 
 public class EasyConsumerExample {
     public static void main(String[] args) {
+        //配置
+        RpcConfig rpc = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
+        System.out.println(rpc);
 //        //静态代理
 //        UserService userService = new UserServiceProxy();
         // 动态代理

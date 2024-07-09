@@ -8,9 +8,9 @@ import com.hydrogen.hydrogenrpc.utils.ConfigUtils;
 
 public class EasyConsumerExample {
     public static void main(String[] args) {
-        //配置
-        RpcConfig rpc = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
-        System.out.println(rpc);
+//        //配置
+//        RpcConfig rpc = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
+//        System.out.println(rpc);
 //        //静态代理
 //        UserService userService = new UserServiceProxy();
         // 动态代理
@@ -24,5 +24,8 @@ public class EasyConsumerExample {
         } else {
             System.out.println("user == null");
         }
+
+        long number = userService.getNumber();
+        System.out.println(number);
     }
 }

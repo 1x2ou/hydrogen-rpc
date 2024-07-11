@@ -1,0 +1,2 @@
+jdk=com.hydrogen.hydrogenrpc.serializer.JdkSerializer
+hessian=com.hydrogen.hydrogenrpc.serializer.HessianSerializer

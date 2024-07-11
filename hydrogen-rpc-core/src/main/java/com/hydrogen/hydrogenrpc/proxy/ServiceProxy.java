@@ -34,6 +34,11 @@ public class ServiceProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //指定序列化器
         Serializer serializer = new JdkSerializer();
+//        Serializer serializer = null;
+//        ServiceLoader<Serializer> serviceLoader = ServiceLoader.load(Serializer.class);
+//        for(Serializer service:serviceLoader){
+//            serializer = service;
+//        }
 
         //发请求
         RpcRequest rpcRequest = RpcRequest.builder()

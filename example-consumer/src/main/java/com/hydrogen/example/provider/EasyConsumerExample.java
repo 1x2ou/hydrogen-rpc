@@ -13,8 +13,9 @@ public class EasyConsumerExample {
 //        System.out.println(rpc);
 //        //静态代理
 //        UserService userService = new UserServiceProxy();
-        // 动态代理
+//        // 动态代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
+
         User user = new User();
         user.setName("lingxiao");
         //调用

@@ -1,0 +1,2 @@
+json=com.hydrogen.hydrogenrpc.serializer.JsonSerializer
+kryo=com.hydrogen.hydrogenrpc.serializer.KryoSerializer

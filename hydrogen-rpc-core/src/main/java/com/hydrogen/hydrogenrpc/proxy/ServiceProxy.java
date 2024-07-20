@@ -1,15 +1,24 @@
 package com.hydrogen.hydrogenrpc.proxy;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.hydrogen.example.common.model.ServiceMetaInfo;
+import com.hydrogen.hydrogenrpc.RpcApplication;
+import com.hydrogen.hydrogenrpc.config.RpcConfig;
+import com.hydrogen.hydrogenrpc.constant.RpcConstant;
 import com.hydrogen.hydrogenrpc.model.RpcRequest;
 import com.hydrogen.hydrogenrpc.model.RpcResponse;
+import com.hydrogen.hydrogenrpc.registry.Registry;
+import com.hydrogen.hydrogenrpc.registry.RegistryFactory;
 import com.hydrogen.hydrogenrpc.serializer.JdkSerializer;
 import com.hydrogen.hydrogenrpc.serializer.Serializer;
+import com.hydrogen.hydrogenrpc.serializer.SerializerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class ServiceProxy implements InvocationHandler {
     /**
@@ -33,24 +42,40 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //指定序列化器
-        Serializer serializer = new JdkSerializer();
+        Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 //        Serializer serializer = null;
 //        ServiceLoader<Serializer> serviceLoader = ServiceLoader.load(Serializer.class);
 //        for(Serializer service:serviceLoader){
 //            serializer = service;
 //        }
+        //构造请求
+        String serviceName = method.getDeclaringClass().getName();
 
         //发请求
         RpcRequest rpcRequest = RpcRequest.builder()
-                .serviceName(method.getDeclaringClass().getName())
+                .serviceName(serviceName)
                 .methodName(method.getName())
                 .parameterTypes(method.getParameterTypes())
                 .args(args)
                 .build();
         try {
+            //序列化
             byte[] bodyBytes = serializer.serialize(rpcRequest);
-            //todo: 这里地址被硬编码了，需要使用注册中心和服务中心的发现机制
-            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:8080")
+
+            //从注册中心获取服务提供者请求地址
+            RpcConfig rpcConfig = RpcApplication.getRpcConfig();
+            Registry registry = RegistryFactory.getInstance(rpcConfig.getRegistryConfig().getRegistry());
+            ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
+            serviceMetaInfo.setServiceName(serviceName);
+            serviceMetaInfo.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
+            List<ServiceMetaInfo> serviceMetaInfoList = registry.serviceDiscovery(serviceMetaInfo.getServiceKey());
+            if(CollUtil.isEmpty(serviceMetaInfoList)){
+                throw  new RuntimeException("暂无服务地址");
+            }
+            ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
+            // 发送请求
+
+            try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
                     .body(bodyBytes)
                     .execute()) {
                 byte[] result = httpResponse.bodyBytes();

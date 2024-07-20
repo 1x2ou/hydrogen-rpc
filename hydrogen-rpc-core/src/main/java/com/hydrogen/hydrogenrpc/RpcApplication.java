@@ -1,7 +1,10 @@
 package com.hydrogen.hydrogenrpc;
 
+import com.hydrogen.hydrogenrpc.config.RegistryConfig;
 import com.hydrogen.hydrogenrpc.config.RpcConfig;
 import com.hydrogen.hydrogenrpc.constant.RpcConstant;
+import com.hydrogen.hydrogenrpc.registry.Registry;
+import com.hydrogen.hydrogenrpc.registry.RegistryFactory;
 import com.hydrogen.hydrogenrpc.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +24,11 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig){
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}",newRpcConfig.toString());
+        //注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}",registryConfig);
     }
 
     /**

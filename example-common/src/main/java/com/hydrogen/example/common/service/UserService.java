@@ -11,10 +11,10 @@ public interface UserService {
     User getUser(User user);
 
     /**
-     * 获取数字
+     * 获取数字,用于测试mock接口返回值
      * @return
      */
-    default short getNumber(){
+    default int getNumber(){
         return 1;
     }
 }

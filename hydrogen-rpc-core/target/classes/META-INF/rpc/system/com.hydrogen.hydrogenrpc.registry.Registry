@@ -1,1 +1,2 @@
 etcd=com.hydrogen.hydrogenrpc.registry.EtcdRegistry
+zookeeper=com.hydrogen.hydrogenrpc.registry.ZooKeeperRegistry

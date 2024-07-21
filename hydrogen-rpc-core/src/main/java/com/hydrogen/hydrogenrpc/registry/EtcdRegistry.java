@@ -80,10 +80,10 @@ public class EtcdRegistry implements Registry {
 
     @Override
     public void unRegister(ServiceMetaInfo serviceMetaInfo) {
-        String registryKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
+        String registerKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
         kvClient.delete(ByteSequence.from(ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey(), StandardCharsets.UTF_8));
         // 从本地缓存移除
-        localRegistryNodeKeySet.remove(registryKey);
+        localRegistryNodeKeySet.remove(registerKey);
     }
 
     @Override

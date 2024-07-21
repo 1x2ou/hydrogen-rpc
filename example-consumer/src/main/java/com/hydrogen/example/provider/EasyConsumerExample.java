@@ -20,6 +20,9 @@ public class EasyConsumerExample {
         user.setName("lingxiao");
         //调用
         User newUser = userService.getUser(user);
+//        //测试缓存使用
+//        User newUser2 = userService.getUser(user);
+//        User newUser3 = userService.getUser(user);
         if (newUser != null) {
             System.out.println(newUser.getName());
         } else {

@@ -10,6 +10,7 @@ import com.hydrogen.hydrogenrpc.registry.Registry;
 import com.hydrogen.hydrogenrpc.registry.RegistryFactory;
 import com.hydrogen.hydrogenrpc.server.HttpServer;
 import com.hydrogen.hydrogenrpc.server.VertxHttpServer;
+import com.hydrogen.hydrogenrpc.server.tcp.VertxTcpServer;
 
 public class ProviderExample {
     public static void main(String[] args) {
@@ -34,8 +35,11 @@ public class ProviderExample {
             throw new RuntimeException(e);
         }
 
-        // 启动 web 服务
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+//        // 启动 web 服务
+//        HttpServer httpServer = new VertxHttpServer();
+//        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        //启动TCP服务
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8080);
     }
 }

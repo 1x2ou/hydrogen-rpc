@@ -1,2 +1,2 @@
-no=com.yupi.yurpc.fault.retry.NoRetryStrategy
-fixedInterval=com.yupi.yurpc.fault.retry.FixedIntervalRetryStrategy
+no=com.hydrogen.hydrogenrpc.fault.retry.NoRetryStrategy
+fixedInterval=com.hydrogen.hydrogenrpc.fault.retry.FixedIntervalRetryStrategy

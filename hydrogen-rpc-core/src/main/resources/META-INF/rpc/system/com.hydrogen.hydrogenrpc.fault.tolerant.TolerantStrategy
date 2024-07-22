@@ -1,0 +1,4 @@
+failBack=com.hydrogen.hydrogenrpc.fault.tolerant.FailBackTolerantStrategy
+failFast=com.hydrogen.hydrogenrpc.fault.tolerant.FailFastTolerantStrategy
+failOver=com.hydrogen.hydrogenrpc.fault.tolerant.FailOverTolerantStrategy
+failSafe=com.hydrogen.hydrogenrpc.fault.tolerant.FailSafeTolerantStrategy

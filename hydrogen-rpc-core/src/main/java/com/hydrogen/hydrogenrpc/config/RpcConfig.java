@@ -1,6 +1,7 @@
 package com.hydrogen.hydrogenrpc.config;
 
 import com.hydrogen.hydrogenrpc.fault.retry.RetryStrategyKeys;
+import com.hydrogen.hydrogenrpc.fault.tolerant.TolerantStrategyKeys;
 import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancer;
 import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancerKeys;
 import com.hydrogen.hydrogenrpc.serializer.SerializerKeys;
@@ -47,4 +48,8 @@ public class RpcConfig {
      * 重试策略
      */
     private String retryStrategy = RetryStrategyKeys.NO;
+    /**
+     * 容错策略
+     */
+    private String tolerantStrategy = TolerantStrategyKeys.FAIL_FAST;
 }

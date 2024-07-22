@@ -1,5 +1,7 @@
 package com.hydrogen.hydrogenrpc.config;
 
+import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancer;
+import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancerKeys;
 import com.hydrogen.hydrogenrpc.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -36,4 +38,8 @@ public class RpcConfig {
      * 注册中心配置
      */
     private RegistryConfig registryConfig = new RegistryConfig();
+    /**
+     * 负载均衡器
+     */
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
 }

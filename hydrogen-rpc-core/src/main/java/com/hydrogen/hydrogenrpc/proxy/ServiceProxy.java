@@ -9,6 +9,8 @@ import com.hydrogen.example.common.model.ServiceMetaInfo;
 import com.hydrogen.hydrogenrpc.RpcApplication;
 import com.hydrogen.hydrogenrpc.config.RpcConfig;
 import com.hydrogen.hydrogenrpc.constant.RpcConstant;
+import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancer;
+import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancerFactory;
 import com.hydrogen.hydrogenrpc.model.RpcRequest;
 import com.hydrogen.hydrogenrpc.model.RpcResponse;
 import com.hydrogen.hydrogenrpc.protocol.*;
@@ -26,7 +28,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class ServiceProxy implements InvocationHandler {
@@ -76,7 +80,13 @@ public class ServiceProxy implements InvocationHandler {
             if (CollUtil.isEmpty(serviceMetaInfoList)) {
                 throw new RuntimeException("暂无服务地址");
             }
-            ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
+
+            //负载均衡
+            LoadBalancer loadBalancer = LoadBalancerFactory.getInstance(rpcConfig.getLoadBalancer());
+            Map<String, Object> requestParams = new HashMap<>();
+            requestParams.put("methodName", rpcRequest.getMethodName());
+
+            ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
             //发送TCP请求
             RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
             return rpcResponse.getData();

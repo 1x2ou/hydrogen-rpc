@@ -9,6 +9,8 @@ import com.hydrogen.example.common.model.ServiceMetaInfo;
 import com.hydrogen.hydrogenrpc.RpcApplication;
 import com.hydrogen.hydrogenrpc.config.RpcConfig;
 import com.hydrogen.hydrogenrpc.constant.RpcConstant;
+import com.hydrogen.hydrogenrpc.fault.retry.RetryStrategy;
+import com.hydrogen.hydrogenrpc.fault.retry.RetryStrategyFactory;
 import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancer;
 import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancerFactory;
 import com.hydrogen.hydrogenrpc.model.RpcRequest;
@@ -87,9 +89,14 @@ public class ServiceProxy implements InvocationHandler {
             requestParams.put("methodName", rpcRequest.getMethodName());
 
             ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
-            //发送TCP请求
-            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+            //rpc 请求
+            //使用重试策略
+            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+            RpcResponse rpcResponse = retryStrategy.doRetry(() ->
+                    VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
+            );
             return rpcResponse.getData();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

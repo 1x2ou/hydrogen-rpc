@@ -1,5 +1,6 @@
 package com.hydrogen.hydrogenrpc.config;
 
+import com.hydrogen.hydrogenrpc.fault.retry.RetryStrategyKeys;
 import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancer;
 import com.hydrogen.hydrogenrpc.loadbalancer.LoadBalancerKeys;
 import com.hydrogen.hydrogenrpc.serializer.SerializerKeys;
@@ -42,4 +43,8 @@ public class RpcConfig {
      * 负载均衡器
      */
     private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
+    /**
+     * 重试策略
+     */
+    private String retryStrategy = RetryStrategyKeys.NO;
 }
